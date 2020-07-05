@@ -18,7 +18,11 @@ router.post('/admin/remove', check.verifyClient, admin.remove);
 
 router.get('/user/list', check.verifyClient, user.list);
 
+router.get('/genecode/list', check.verifyClient, genecode.list);
 router.post('/genecode/add', check.verifyClient, genecode.add);
+router.get('/genecode/info', check.verifyClient, genecode.info);
+router.post('/genecode/edit', check.verifyClient, genecode.edit);
+router.post('/genecode/del', check.verifyClient, genecode.del);
 
 
 module.exports = router
