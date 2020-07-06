@@ -1,0 +1,6 @@
+config/setting.js
+node_modules
+log/*
+public/*
+upload/*
+package-lock.json

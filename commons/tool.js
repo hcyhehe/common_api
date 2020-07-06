@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
+const stat = fs.stat;
 
 
 //去掉开头和结尾空格后的字符串，换行符转为空格
@@ -140,4 +141,48 @@ exports.geneMantissa = function(num, leng){
         return time + str;
     }
 }
+
+
+
+//测试某个路径下文件是否存在
+var exists = exports.exists = function exists(src, dst, callback){
+    fs.exists(dst, function(exists){
+        if(exists){  //不存在
+            callback(src,dst);
+        } else {  //存在
+            fs.mkdir(dst,function(){  //创建目录
+                callback(src,dst);
+            })
+        }
+    })
+}
+//递归拷贝文件夹及其文件到指定目录
+exports.copy = function copy(src, dst){
+    //读取目录
+    fs.readdir(src,function(err, paths){
+        console.log(paths)
+        if(err){
+            throw err;
+        }
+        paths.forEach(function(path){
+            var _src=src+'/'+path;
+            var _dst=dst+'/'+path;
+            var readable;
+            var writable;
+            stat(_src,function(err,st){
+                if(err){
+                    throw err;
+                }
+                if(st.isFile()){
+                    readable=fs.createReadStream(_src);//创建读取流
+                    writable=fs.createWriteStream(_dst);//创建写入流
+                    readable.pipe(writable);
+                } else if (st.isDirectory()){
+                    exists(_src, _dst, copy);
+                }
+            });
+        });
+    });
+}
+
 

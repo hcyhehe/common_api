@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-07-06 00:10:19
+Date: 2020-07-07 00:12:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', '4297f44b13955235245b2497399d7a93', '2', null, '2020-05-23 01:03:47', '2020-07-05 21:36:07', '127.0.0.1');
+INSERT INTO `admin` VALUES ('1', 'admin', '4297f44b13955235245b2497399d7a93', '2', null, '2020-05-23 01:03:47', '2020-07-06 21:22:11', '127.0.0.1');
 INSERT INTO `admin` VALUES ('8', 'admin2', 'c4ca4238a0b923820dcc509a6f75849b', '1', null, '2020-05-24 00:41:26', null, null);
 INSERT INTO `admin` VALUES ('9', 'admin3', '4297f44b13955235245b2497399d7a93', '1', null, '2020-06-27 17:26:52', '2020-06-27 22:24:16', '127.0.0.1');
 
@@ -44,16 +44,20 @@ INSERT INTO `admin` VALUES ('9', 'admin3', '4297f44b13955235245b2497399d7a93', '
 DROP TABLE IF EXISTS `base`;
 CREATE TABLE `base` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` text COMMENT '项目名',
+  `project_name` text COMMENT '项目名',
   `port` text COMMENT '端口',
+  `bg_remark` text COMMENT '后端说明',
+  `ft_remark` text COMMENT '前端说明',
   `akey` text COMMENT 'Admin密钥',
   `hkey` text COMMENT 'H5密钥',
+  `db_name` text COMMENT '数据库名',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of base
 -- ----------------------------
+INSERT INTO `base` VALUES ('1', 'a_shop', '8089', 'a_shop商城后端API，nodejs编写', 'a_shop商城管理后台页面，vue编写', 'aShopAdmin.888', 'aShopH5.666', 'a_shop');
 
 -- ----------------------------
 -- Table structure for `genecode`
@@ -66,13 +70,13 @@ CREATE TABLE `genecode` (
   `sort` smallint(4) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of genecode
 -- ----------------------------
-INSERT INTO `genecode` VALUES ('2', 'aaa2', 'people', '1', '2020-07-05 22:43:13');
-INSERT INTO `genecode` VALUES ('3', 'ccc', 'wechat', '3', '2020-07-05 22:49:08');
+INSERT INTO `genecode` VALUES ('4', 'goods', 'shopping', '1', '2020-07-06 22:15:36');
+INSERT INTO `genecode` VALUES ('5', 'swiper', 'theme', '2', '2020-07-06 22:25:49');
 
 -- ----------------------------
 -- Table structure for `genecode_detail`
@@ -95,15 +99,22 @@ CREATE TABLE `genecode_detail` (
   `is_sort` smallint(4) DEFAULT '1' COMMENT '是否为排序项：1否，2是',
   `up_down` varchar(4) DEFAULT 'desc' COMMENT '升或降：1升，2降',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of genecode_detail
 -- ----------------------------
-INSERT INTO `genecode_detail` VALUES ('4', '3', 'asd11', 'decimal', '2', '2', '2', '22', '2', '2', 'qeweeddd11', '2', '4', '2', 'asc');
-INSERT INTO `genecode_detail` VALUES ('5', '3', 'wrwer11', 'varchar', '12', '0', '2', '333', '1', '1', 'hhh11', '2', '5', '1', 'desc');
-INSERT INTO `genecode_detail` VALUES ('6', '3', 'eeewww', 'text', '5', '0', '2', '333', '1', '1', '34314', '1', '1', '1', 'desc');
-INSERT INTO `genecode_detail` VALUES ('7', '2', 'bbb2', 'varchar', '12', '0', '2', '1', '1', '1', 'qweqwe2', '2', '2', '2', 'desc');
+INSERT INTO `genecode_detail` VALUES ('8', '4', 'id', 'int', '11', '0', '1', '', '2', '2', '', '1', '1', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('9', '4', 'name', 'text', '0', '0', '1', '', '1', '1', '商品名称', '2', '1', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('10', '4', 'price', 'decimal', '11', '2', '1', '0', '1', '1', '价格', '1', '1', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('11', '4', 'status', 'smallint', '4', '0', '1', '1', '1', '1', '状态：1下架，2上架', '1', '2', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('12', '4', 'detail', 'text', '0', '0', '1', '', '1', '1', '商品详情', '1', '4', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('13', '4', 'act_time1', 'datetime', '0', '0', '1', '', '1', '1', '活动时间1', '1', '8', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('14', '4', 'act_time2', 'datetime', '0', '0', '1', '', '1', '1', '活动时间2', '1', '8', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('15', '5', 'id', 'int', '11', '0', '1', '', '2', '2', '', '1', '1', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('16', '5', 'img_url', 'text', '0', '0', '1', '', '1', '1', '图片地址', '1', '5', '1', 'desc');
+INSERT INTO `genecode_detail` VALUES ('17', '5', 'sort', 'smallint', '4', '0', '1', '1', '1', '1', '排序', '1', '1', '2', 'asc');
+INSERT INTO `genecode_detail` VALUES ('18', '5', 'status', 'smallint', '4', '0', '1', '1', '1', '1', '状态：1下架，2上架', '1', '2', '1', 'desc');
 
 -- ----------------------------
 -- Table structure for `orders`
