@@ -1,4 +1,5 @@
-const express = require('express');
+exports.content = function (projectName, port) {
+  const appJs = `const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');  //express自带的日志模块
@@ -10,13 +11,9 @@ const http = require('http');
 const cors = require('cors');
 const code = require('./commons/code');
 const app = express();
-const setting = require('./config/setting');
 const apiRouter = require('./routes/api_router');
 const bgRouter = require('./routes/bg_router');
 const fileRouter = require('./routes/file_router');
-
-const port = setting.port;
-const projectName = setting.project_name;
 
 
 const logDirectory = path.join(__dirname, 'log');
@@ -39,9 +36,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());  //跨域模块
 
-app.use(`/${projectName}/api/`, apiRouter);
-app.use(`/${projectName}/bg/`, bgRouter);
-app.use(`/${projectName}/`, fileRouter);
+app.use('/${projectName}/api/', apiRouter);
+app.use('/${projectName}/bg/', bgRouter);
+app.use('/${projectName}/', fileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -67,8 +64,11 @@ const io = require('socket.io')(server);
 
 
 server.listen(port, function(){
-  console.log(`${projectName} is up on the port ${port}`);
+  console.log('${projectName} is up on the port ${port}');
 });
 
 
-module.exports = app;
+module.exports = app;`;
+
+  return appJs;
+}
