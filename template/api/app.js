@@ -22,7 +22,7 @@ const projectName = setting.project_name;
 const logDirectory = path.join(__dirname, 'log');
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);  //确保日志文件夹存在
 const accessLogStream = rfs('access.log', {  //创建一个轮询的写操作流
-  interval: '1d',  //每天轮询
+  interval: '7d',  //每7天轮询
   path: logDirectory
 })
 

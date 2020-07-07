@@ -4,5 +4,4 @@ log/*
 public/*
 upload/*
 package-lock.json
-project_export/api/*
-project_export/admin/*
+project_export/*

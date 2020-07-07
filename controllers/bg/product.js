@@ -7,6 +7,8 @@ const conn = require('../../config/pool');
 
 exports.project = async function (req, res, next) {
     try{
+        let Path = path.resolve(__dirname, '../../');
+
         //1. 先获取基础设置信息
         let sql1 = ` select * from base limit 1 `;
         let [[raw1]] = await conn.query(sql1);
@@ -22,14 +24,19 @@ exports.project = async function (req, res, next) {
         }
         console.log(raw2);
 
-        //3. 先从模板里面将前后端文件夹copy到输出目录
-        let Path = path.resolve(__dirname, '../../');
-        let bgPathTem = Path + '/template/api';
+        //3. 先从固定的文件夹里面将前后端文件夹copy到输出目录
+        let bgPathFixed = Path + '/fixed_file/api';
         let bgPathExp = Path + '/project_export/api';
-        let ftPathTem = Path + '/template/admin';
+        let ftPathFixed = Path + '/fixed_file/admin';
         let ftPathExp = Path + '/project_export/admin';
-        tool.exists(bgPathTem, bgPathExp, tool.copy);  //后端文件夹拷贝
-        tool.exists(ftPathTem, ftPathExp, tool.copy);  //前端文件夹拷贝
+        tool.exists(bgPathFixed, bgPathExp, tool.copy);  //后端文件夹拷贝
+        tool.exists(ftPathFixed, ftPathExp, tool.copy);  //前端文件夹拷贝
+
+
+        //4. 开始生成后端
+        //1)app.js
+        
+
         
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {

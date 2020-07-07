@@ -160,7 +160,7 @@ var exists = exports.exists = function exists(src, dst, callback){
 exports.copy = function copy(src, dst){
     //读取目录
     fs.readdir(src,function(err, paths){
-        console.log(paths)
+        //console.log(paths);
         if(err){
             throw err;
         }
