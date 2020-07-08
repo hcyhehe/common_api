@@ -12,7 +12,7 @@ exports.project = async function (req, res, next) {
         //1. 先获取基础设置信息
         let sql1 = ` select * from base limit 1 `;
         let [[raw1]] = await conn.query(sql1);
-        console.log(raw1);
+        //console.log(raw1);
 
         let Path = path.resolve(__dirname, '../../');
         let apiProjectFloder = `${raw1.project_name}_api`;   //后端API文件夹名称
@@ -30,7 +30,7 @@ exports.project = async function (req, res, next) {
             let [raw3] = await conn.query(sql3);
             raw2[i].detail = raw3;
         }
-        console.log(raw2);
+        //console.log(raw2);
 
         //3. 先从固定的文件夹里面将前后端文件夹copy到输出目录
         tool.exists(apiPathFixed, apiPathExp, tool.copy);  //后端API文件夹拷贝
@@ -38,9 +38,18 @@ exports.project = async function (req, res, next) {
 
 
         //4. 开始生成后端
-        //1)app.js
+        // 1)app.js
         let appJs = temApi.appJs.content(raw1.project_name, raw1.port);
         fs.writeFileSync(`${apiPathExp}/app.js`, appJs);
+        // 2)README.md
+        let readme = temApi.readme.content(apiProjectFloder, raw1.bg_remark);
+        fs.writeFileSync(`${apiPathExp}/README.md`, readme);
+        // 3)package.json
+        let package = temApi.package.content(apiProjectFloder);
+        fs.writeFileSync(`${apiPathExp}/package.json`, package);
+        // 4)config/setting.js
+        let setting = temApi.setting.content(apiProjectFloder, raw1);
+        fs.writeFileSync(`${apiPathExp}/config/setting.js`, setting);
         
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {

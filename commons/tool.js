@@ -4,7 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
-const stat = fs.stat;
+const { userInfo } = require('os');
 
 
 //去掉开头和结尾空格后的字符串，换行符转为空格
@@ -146,43 +146,55 @@ exports.geneMantissa = function(num, leng){
 
 //测试某个路径下文件是否存在
 var exists = exports.exists = function exists(src, dst, callback){
-    fs.exists(dst, function(exists){
-        if(exists){  //不存在
-            callback(src,dst);
-        } else {  //存在
-            fs.mkdir(dst,function(){  //创建目录
-                callback(src,dst);
-            })
-        }
-    })
+    try {
+        let ifExist = fs.existsSync(dst);
+        if(!ifExist) fs.mkdirSync(dst);
+        callback(src, dst);
+    } catch(e) {
+        console.log(e);
+    }
 }
 //递归拷贝文件夹及其文件到指定目录
 exports.copy = function copy(src, dst){
-    //读取目录
-    fs.readdir(src,function(err, paths){
-        //console.log(paths);
-        if(err){
-            throw err;
-        }
+    try {
+        let paths = fs.readdirSync(src);  //读取目录
         paths.forEach(function(path){
-            var _src=src+'/'+path;
-            var _dst=dst+'/'+path;
+            var _src = src+'/'+path;
+            var _dst = dst+'/'+path;
             var readable;
             var writable;
-            stat(_src,function(err,st){
-                if(err){
-                    throw err;
-                }
-                if(st.isFile()){
-                    readable=fs.createReadStream(_src);//创建读取流
-                    writable=fs.createWriteStream(_dst);//创建写入流
-                    readable.pipe(writable);
-                } else if (st.isDirectory()){
-                    exists(_src, _dst, copy);
-                }
-            });
+            let st = fs.statSync(_src);
+            if(st.isFile()){
+                readable = fs.createReadStream(_src);  //创建读取流
+                writable = fs.createWriteStream(_dst);  //创建写入流
+                readable.pipe(writable);
+            } else if (st.isDirectory()){
+                exists(_src, _dst, copy);
+            }
         });
-    });
+    } catch(e) {
+        console.log(e);
+    }
 }
 
 
+//美化文件内容：去除首尾两行，并去除每行首尾空格
+exports.beautyFile = function (content){
+    contentArr = content.split('\n');
+    contentArr.shift();
+    contentArr.pop();
+    let num = 0;
+    let first = contentArr[0].split('');
+    //console.log(first);
+    for(let i=0;i<first.length;i++){  //计算每行前面空格个数，后面做去除
+        if(first[i]===' ') num++;
+        if(first[i]!==' ') break;
+    }
+    //console.log(num);
+    const newArr = [];
+    for(let i=0;i<contentArr.length;i++){
+        newArr.push(contentArr[i].substring(num, contentArr[i].length));
+    }
+    
+    return newArr.join('\n');
+}

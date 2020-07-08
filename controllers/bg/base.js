@@ -12,17 +12,21 @@ exports.edit = async function (req, res, next) {
         let akey = req.body.akey;
         let hkey = req.body.hkey;
         let db_name = req.body.db_name;
+        let db_user = req.body.db_user;
+        let db_pass = req.body.db_pass;
         
         let sql = ` select * from base limit 1 `;
         let [raw] = await conn.query(sql);
         
         let sql2;
         if(raw.length==0){
-            sql2 = ` insert into base(project_name, port, bg_remark, ft_remark, akey, hkey, db_name)
-                     values('${project_name}', '${port}', '${bg_remark}', '${ft_remark}', '${akey}', '${hkey}', '${db_name}') `;
+            sql2 = ` insert into base(project_name, port, bg_remark, ft_remark, akey, hkey, db_name, db_user, db_pass)
+                     values('${project_name}', '${port}', '${bg_remark}', '${ft_remark}', '${akey}', '${hkey}', '${db_name}',
+                     '${db_user}', '${db_pass}') `;
         } else {
             sql2 = ` update base set project_name = '${project_name}', port = '${port}', bg_remark = '${bg_remark}', 
-                     ft_remark = '${ft_remark}', akey = '${akey}', hkey = '${hkey}', db_name = '${db_name}' `;
+                     ft_remark = '${ft_remark}', akey = '${akey}', hkey = '${hkey}', db_name = '${db_name}',
+                     db_user = '${db_user}', db_pass = '${db_pass}' `;
         }
         await conn.query(sql2);
 

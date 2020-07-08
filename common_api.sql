@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-07-07 00:12:52
+Date: 2020-07-09 00:49:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', '4297f44b13955235245b2497399d7a93', '2', null, '2020-05-23 01:03:47', '2020-07-06 21:22:11', '127.0.0.1');
+INSERT INTO `admin` VALUES ('1', 'admin', '4297f44b13955235245b2497399d7a93', '2', null, '2020-05-23 01:03:47', '2020-07-08 21:18:41', '127.0.0.1');
 INSERT INTO `admin` VALUES ('8', 'admin2', 'c4ca4238a0b923820dcc509a6f75849b', '1', null, '2020-05-24 00:41:26', null, null);
 INSERT INTO `admin` VALUES ('9', 'admin3', '4297f44b13955235245b2497399d7a93', '1', null, '2020-06-27 17:26:52', '2020-06-27 22:24:16', '127.0.0.1');
 
@@ -51,13 +51,15 @@ CREATE TABLE `base` (
   `akey` text COMMENT 'Admin密钥',
   `hkey` text COMMENT 'H5密钥',
   `db_name` text COMMENT '数据库名',
+  `db_user` text COMMENT '数据库账号',
+  `db_pass` text COMMENT '数据库密码',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of base
 -- ----------------------------
-INSERT INTO `base` VALUES ('1', 'a_shop', '8089', 'a_shop商城后端API，nodejs编写', 'a_shop商城管理后台页面，vue编写', 'aShopAdmin.888', 'aShopH5.666', 'a_shop');
+INSERT INTO `base` VALUES ('2', 'a_shop', '8089', 'a_shop商城后端API，nodejs编写', 'a_shop商城管理后台页面，vue编写', 'aShopAdmin.888', 'aShopH5.666', 'a_shop', 'root', 'root');
 
 -- ----------------------------
 -- Table structure for `genecode`
