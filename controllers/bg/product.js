@@ -30,12 +30,10 @@ exports.project = async function (req, res, next) {
             let [raw3] = await conn.query(sql3);
             raw2[i].detail = raw3;
         }
-        //console.log(raw2);
 
         //3. 先从固定的文件夹里面将前后端文件夹copy到输出目录
         tool.exists(apiPathFixed, apiPathExp, tool.copy);  //后端API文件夹拷贝
         tool.exists(adminPathFixed, adminPathExp, tool.copy);  //管理后台页面文件夹拷贝
-
 
         //4. 开始生成后端
         // 1)app.js
@@ -50,6 +48,14 @@ exports.project = async function (req, res, next) {
         // 4)config/setting.js
         let setting = temApi.setting.content(apiProjectFloder, raw1);
         fs.writeFileSync(`${apiPathExp}/config/setting.js`, setting);
+        // 5)循环生成CURD
+        for(let i=0;i<raw2.length;i++){
+            console.log(raw2[i]);
+            let obj = {};
+            obj.name = raw2[i].name;
+            let curd = temApi.curd.content(obj);
+            fs.writeFileSync(`${apiPathExp}/controllers/bg/${obj.name}.js`, curd);
+        }
         
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {
