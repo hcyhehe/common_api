@@ -50,11 +50,8 @@ exports.project = async function (req, res, next) {
         fs.writeFileSync(`${apiPathExp}/config/setting.js`, setting);
         // 5)循环生成CURD
         for(let i=0;i<raw2.length;i++){
-            console.log(raw2[i]);
-            let obj = {};
-            obj.name = raw2[i].name;
-            let curd = temApi.curd.content(obj);
-            fs.writeFileSync(`${apiPathExp}/controllers/bg/${obj.name}.js`, curd);
+            let curd = temApi.curd.content(raw2[i]);
+            fs.writeFileSync(`${apiPathExp}/controllers/bg/${raw2[i].name}.js`, curd);
         }
         
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });

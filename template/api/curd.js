@@ -2,11 +2,53 @@ const tool = require('../../commons/tool');
 
 exports.content = function (obj) {
     let tableName = obj.name;
+    let detail = obj.detail;
+
+    let data = {
+        is_search: [],
+        add_params: [],
+        edit_params: [],
+    }
+    for(let i=0;i<detail.length;i++){
+        if(detail[i].is_mkey == 2){  //1) 获取主键
+            data.is_mkey = detail[i].name;
+        }
+        if(detail[i].is_search == 2){  //2) 获取搜索项
+            data.is_search.push(detail[i].name);
+        }
+        if(detail[i].is_sort == 2){  //3) 获取排序
+            data.is_sort = `${detail[i].name} ${detail[i].up_down}`;
+        }
+        if(detail[i].is_mkey != 2){  //4) add params
+            data.add_params.push(detail[i].name);
+        }
+        data.edit_params.push(detail[i].name);  //5) edit_params
+    }
+    console.log('data:', data);
+
+    //生成搜索模板
+    let seachName = '';
+    let seachItem = '';
+    for(let i=0;i<data.is_search.length;i++){
+        let name = data.is_search[i];
+        seachName += `
+                let ${name} = req.query.${name};`;
+        seachItem += `
+                if(${name}){
+                    sql += \` and ${name} like "%\${${name}}%" \`;
+                    sql2 += \` and ${name} like "%\${${name}}%" \`;
+                }
+        `;
+    }
+    console.log('seachName:', seachName);
+    console.log('seachItem:', seachItem);
+
+
     const str = `
         const moment = require('moment');
         const code = require('../../commons/code');
         const conn = require('../../config/pool');
-        
+
         
         exports.list = async function (req, res, next) {
             try{
@@ -16,16 +58,12 @@ exports.content = function (obj) {
                 if(!pages || !limit){
                     return res.send({"code": 4000000, "msg": code[4000000] });
                 }
-                let name = req.query.name;
+                ${seachName}
                 
-                let sql = ' select * from ${tableName} where 1 = 1 ';
-                let sql2 = ' select count(*) as count from ${tableName} where 1 = 1 ';
-        
-                if(name){
-                    sql += ' and name like "%'+name+'%" ';
-                    sql2 += ' and name like "%'+name+'%" ';
-                }
-                sql += ' order by sort asc limit '+skip+','+limit;
+                let sql = \` select * from ${tableName} where 1 = 1 \`;
+                let sql2 = \` select count(*) as count from ${tableName} where 1 = 1 \`;
+                ${seachItem}
+                sql += \` order by ${data.is_sort} limit \${skip}, \${limit} \`;
                 let [list] = await conn.query(sql);
                 let countRaw = await conn.query(sql2);
                 let count = countRaw[0][0].count;
@@ -44,22 +82,12 @@ exports.content = function (obj) {
                 let name = req.body.name;
                 let imgs = req.body.imgs.join(',');
                 let sku = req.body.sku;
-                let detail = req.body.detail;
-                let score = req.body.score;
-                let ori_price = req.body.ori_price;
-                let price = req.body.price;
-                let discount = req.body.discount;
-                let un_price = req.body.un_price;
-                let fare = req.body.fare;
-                let sort = req.body.sort;
                 if(!shop_id || !name){
                     return res.send({"code": 4000000, "msg": code[4000000] });
                 }
                 let now = moment().format('YYYY-MM-DD HH:mm:ss');
-                let sql = ' insert into ${tableName}(shop_id, name, imgs, sku, detail, score, ori_price, price, discount, '+
-                          ' un_price, fare, sort, create_time) '+
-                          ' values('+shop_id+', \\''+name+'\\', \\''+imgs+'\\', \\''+sku+'\\', \\''+detail+'\\', '+score+
-                          ', '+ori_price+', '+price+', '+discount+', '+un_price+', '+fare+', '+sort+', \\''+now+'\\') ';
+                let sql = \` insert into ${tableName} (shop_id, name, imgs, sku, create_time)
+                            values(\${shop_id}, '\${name}', '\${imgs}', '\${sku}', '\${now}') \`;
                 await conn.query(sql);
         
                 res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
@@ -76,7 +104,7 @@ exports.content = function (obj) {
                 if(!id){
                     return res.send({"code": 4000000, "msg": code[4000000] });
                 }
-                let sql = ' select * from ${tableName} where id = '+id;
+                let sql = \` select * from ${tableName} where id = \${id} \`;
                 let [[raw]] = await conn.query(sql);
                 
                 res.send({ "code": 2000000, "msg": code['2000000'], data:raw });
@@ -93,23 +121,12 @@ exports.content = function (obj) {
                 let name = req.body.name;
                 let imgs = req.body.imgs.join(',');
                 let sku = req.body.sku;
-                let detail = req.body.detail;
-                let score = req.body.score;
-                let ori_price = req.body.ori_price;
-                let price = req.body.price;
-                let discount = req.body.discount;
-                let un_price = req.body.un_price;
-                let fare = req.body.fare;
-                let sort = req.body.sort;
                 if(!id || !name){
                     return res.send({"code": 4000000, "msg": code[4000000] });
                 }
                 let now = moment().format('YYYY-MM-DD HH:mm:ss');
-                let sql = ' update ${tableName} set name = \\''+name+'\\', imgs = \\''+imgs+'\\', sku = \\''+sku+'\\', '+
-                          ' detail = \\''+detail+'\\', '+
-                          ' score = '+score+', ori_price = '+ori_price+', price = '+price+', discount = '+discount+', '+
-                          ' un_price = '+un_price+', fare = '+fare+', sort = '+sort+
-                          ' where id = '+id;
+                let sql = \` update ${tableName} set name = '\${name}', imgs = '\${imgs}', sku = '\${sku}' 
+                            where id = \${id} \`;
                 await conn.query(sql);
         
                 res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
@@ -126,7 +143,7 @@ exports.content = function (obj) {
                 if(!id){
                     return res.send({"code": 4000000, "msg": code[4000000] });
                 }
-                let sql = ' update ${tableName} set is_deleted = 2 where id = '+id;
+                let sql = \` delete from ${tableName} where id = \${id} \`;
                 await conn.query(sql);
         
                 res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
