@@ -53,6 +53,11 @@ exports.project = async function (req, res, next) {
             let curd = temApi.curd.content(raw2[i]);
             fs.writeFileSync(`${apiPathExp}/controllers/bg/${raw2[i].name}.js`, curd);
         }
+        // 6)生成bg的路由
+        let bgRouter = temApi.bgRouter.content(raw2);
+        fs.writeFileSync(`${apiPathExp}/routes/bg_router.js`, bgRouter);
+        // 7)生成sql文件
+        
         
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {

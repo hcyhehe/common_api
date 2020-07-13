@@ -12,12 +12,14 @@ exports.content = function (obj) {
     let addIsNotNullItem = '';  //新增的非空判断子项
     let addInsertName = '(';  //新增sql语句name项
     let addInsertValue = 'values(';  //新增sql语句value项
-    let isMkey;  //查询info或者删除的时候需要的主键id
+    let isMkey;  //查询/删除/更新的时候需要的主键id
+    let isMkeyType;  //主键id类型：1 number，2 string
     let infoSql;  //查询info的sql
     let delSql;  //del的sql
     let editParams = '';  //编辑接收的参数，如req.body.xxx
     let editIsNotNull = '';  //编辑的非空判断
     let editIsNotNullItem = '';  //编辑的非空判断子项
+    let upSql = `\` update ${tableName} set `;  //更新的sql
 
     for(let i=0;i<detail.length;i++){
         let name = detail[i].name;
@@ -59,15 +61,17 @@ exports.content = function (obj) {
             addInsertValue += ` \${${name}},`;
         }
 
-        //info
+        //info & del
         if(detail[i].is_mkey == 2){
             isMkey = name;
         }
         if(detail[i].is_mkey == 2 && (detail[i].type == 'int' || detail[i].type == 'smallint' || detail[i].type == 'decimal')){
+            isMkeyType = 1;
             infoSql = `\` select * from ${tableName} where ${isMkey} = \${${isMkey}} \``;
             delSql = `\` delete from ${tableName} where ${isMkey} = \${${isMkey}} \``;
         }
         if(detail[i].is_mkey == 2 && (detail[i].type == 'varchar' || detail[i].type == 'text' || detail[i].type == 'datetime')){
+            isMkeyType = 2;
             infoSql = `\` select * from ${tableName} where ${isMkey} = '\${${isMkey}}' \``;
             delSql = `\` delete from ${tableName} where ${isMkey} = '\${${isMkey}}' \``;
         }
@@ -79,6 +83,13 @@ exports.content = function (obj) {
         }
         if(detail[i].is_null == 1){  //非空检查
             editIsNotNullItem += ` !${name} ||`;
+        }
+        if(detail[i].is_mkey != 2 && detail[i].ft_type < 9){  //拼接更新sql
+            if(detail[i].type == 'int' || detail[i].type == 'smallint' || detail[i].type == 'decimal'){
+                upSql += `${name} = \${${name}}, `;
+            } else {
+                upSql += `${name} = '\${${name}}', `;
+            }
         }
         
     }
@@ -100,6 +111,11 @@ exports.content = function (obj) {
                     return res.send({"code": 4000000, "msg": code[4000000] });
                 }
     `;
+    upSql = upSql.substring(0, upSql.length-2);
+    if(isMkeyType==1) upSql = upSql + ` 
+                where ${isMkey} = \${${isMkey}} \``;
+    if(isMkeyType==2) upSql = upSql + ` 
+                where ${isMkey} = '\${${isMkey}}' \``;
 
     // console.log('seachName:', seachName);
     // console.log('seachItem:', seachItem);
@@ -107,8 +123,9 @@ exports.content = function (obj) {
     // console.log('addIsNotNull:', addIsNotNull);
     // console.log('addInsertName:', addInsertName);
     // console.log('addInsertValue:', addInsertValue);
-    console.log('editParams', editParams)
-    console.log('editIsNotNull', editIsNotNull)
+    // console.log('editParams:', editParams);
+    // console.log('editIsNotNull:', editIsNotNull);
+    // console.log('upSql:', upSql);
 
     const str = `
         const moment = require('moment');
@@ -180,8 +197,7 @@ exports.content = function (obj) {
             try{
                 ${editParams}
                 ${editIsNotNull}
-                let sql = \` update ${tableName} set name = '\${name}', imgs = '\${imgs}', sku = '\${sku}' 
-                            where id = \${id} \`;
+                let sql = ${upSql};
                 await conn.query(sql);
         
                 res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
