@@ -57,7 +57,8 @@ exports.project = async function (req, res, next) {
         let bgRouter = temApi.bgRouter.content(raw2);
         fs.writeFileSync(`${apiPathExp}/routes/bg_router.js`, bgRouter);
         // 7)生成sql文件
-        
+        let sqlFile = temApi.sql.content(raw2);
+        fs.writeFileSync(`${apiPathExp}/${apiProjectFloder}.sql`, sqlFile);
         
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {
