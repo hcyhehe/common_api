@@ -2,6 +2,7 @@ const tool = require('../../commons/tool');
 
 exports.content = function (data) {
   let sqlStr = '';
+  let falseDel = ` \`is_deleted\` smallint(4) DEFAULT '1' COMMENT '1否，2是', `;
   for(let i=0;i<data.length;i++){
     //console.log('sql data:', data[i]);
     let name = data[i].name;
@@ -11,34 +12,51 @@ exports.content = function (data) {
       -- Table structure for \`${name}\`
       -- ----------------------------
       DROP TABLE IF EXISTS \`${name}\`;
-      CREATE TABLE \`${name}\` (
-    `;
+      CREATE TABLE \`${name}\` (`;
     
     let fields = '';
     let mkey;
     for(let j=0;j<detail.length;j++){
-      fields += `\`${detail[j].name}\` ${detail[j].type}(${detail[j].leng},${detail[j].deci}) `;
+      if(detail[j].type == 'text' || detail[j].type == 'datetime'){
+        fields += `\`${detail[j].name}\` ${detail[j].type} `;
+      }
+      if(detail[j].type == 'decimal'){
+        fields += `\`${detail[j].name}\` ${detail[j].type}(${detail[j].leng},${detail[j].deci}) `;
+      }
+      if(detail[j].type == 'int' || detail[j].type == 'smallint' || detail[j].type == 'varchar'){
+        fields += `\`${detail[j].name}\` ${detail[j].type}(${detail[j].leng}) `;
+      }
+      
       if(detail[j].is_mkey == 2){
         mkey = detail[j].name;
         fields += ` NOT NULL `;
         if(detail[j].is_autoincre == 2) fields += ` AUTO_INCREMENT `;
       } else {
         if(detail[j].is_null==1) fields += ` NOT NULL `;
-        if(detail[j].default_val) fields += ` DEFAULT '${detail[j].default_val}' `;
-        if(!detail[j].default_val && detail[j].default_val!==0) fields += ` DEFAULT NULL `;
+        if(detail[j].is_null==2 && detail[j].default_val) fields += ` DEFAULT '${detail[j].default_val}' `;
+        if(detail[j].is_null==2 && !detail[j].default_val && detail[j].default_val!==0) fields += ` DEFAULT NULL `;
         if(detail[j].remark) fields += ` COMMENT '${detail[j].remark}' `;
       }
       fields += `,
       `;
     }
     
-    sqlStr += `
-        ${fields}
-        PRIMARY KEY (\`${mkey}\`)
-      ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-    `;
+    if(data.is_deleted == 1){
+      sqlStr += `
+          ${fields}
+          PRIMARY KEY (\`${mkey}\`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+      `;
+    } else {
+      sqlStr += `
+          ${fields}${falseDel}
+          PRIMARY KEY (\`${mkey}\`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+      `;
+    }
+    
   }
-  console.log(sqlStr);
+  //console.log(sqlStr);
 
   const str = `
     SET FOREIGN_KEY_CHECKS=0;

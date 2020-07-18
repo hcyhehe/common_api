@@ -37,6 +37,7 @@ exports.add = async function (req, res, next) {
         let name = req.body.name;
         let sort = req.body.sort;
         let icon = req.body.icon;
+        let is_deleted = req.body.is_deleted;
         let data = req.body.data;
         //console.log(name, sort, icon, data);
         if(!name){
@@ -44,8 +45,9 @@ exports.add = async function (req, res, next) {
         }
         let now = moment().format('YYYY-MM-DD HH:mm:ss');
 
-        let sql = ` insert into genecode(name, icon, sort, create_time)
-                    values('${name}', '${icon}', ${sort}, '${now}') `;
+        let sql = ` insert into genecode(name, icon, sort, is_deleted, create_time)
+                    values('${name}', '${icon}', ${sort}, ${is_deleted}, '${now}') `;
+        //console.log(sql);
         let [raw] = await conn.query(sql);
         let g_id = raw.insertId;
 
@@ -95,13 +97,15 @@ exports.edit = async function (req, res, next) {
         let name = req.body.name;
         let sort = req.body.sort;
         let icon = req.body.icon;
+        let is_deleted = req.body.is_deleted;
         let data = req.body.data;
         //console.log(name, sort, icon, data);
         if(!id || !name){
             return res.send({"code": 4000000, "msg": code[4000000] });
         }
 
-        let sql = ` update genecode set name = '${name}', icon = '${icon}', sort = ${sort} where id = ${id} `;
+        let sql = ` update genecode set name = '${name}', icon = '${icon}', sort = ${sort}, is_deleted = ${is_deleted} 
+                    where id = ${id} `;
         await conn.query(sql);
 
         //先删除之前的所有子项
