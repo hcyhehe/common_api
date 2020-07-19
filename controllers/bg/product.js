@@ -5,6 +5,7 @@ const code = require('../../commons/code');
 const tool = require('../../commons/tool');
 const conn = require('../../config/pool');
 const temApi = require('../../template/api/index');
+const temAdmin = require('../../template/admin/index');
 
 
 exports.project = async function (req, res, next) {
@@ -59,7 +60,24 @@ exports.project = async function (req, res, next) {
         // 7)生成sql文件
         let sqlFile = temApi.sql.content(raw2);
         fs.writeFileSync(`${apiPathExp}/${apiProjectFloder}.sql`, sqlFile);
-        
+
+        //5. 开始生成前端admin
+        // 1)README.md
+        let readmeAdmin = temAdmin.readme.content(adminProjectFloder, raw1.ft_remark);
+        fs.writeFileSync(`${adminPathExp}/README.md`, readmeAdmin);
+        // 2)package.json
+        let packageAdmin = temAdmin.package.content(adminProjectFloder);
+        fs.writeFileSync(`${adminPathExp}/package.json`, packageAdmin);
+        // 3)index.html
+        let indexHtmlAdmin = temAdmin.indexHtml.content(raw1.cname);
+        fs.writeFileSync(`${adminPathExp}/index.html`, indexHtmlAdmin);
+        // 4)src/js/global.js
+        let globalAdmin = temAdmin.global.content(raw1, raw2, apiProjectFloder);
+        fs.writeFileSync(`${adminPathExp}/src/js/global.js`, globalAdmin);
+        // 5)前端路由src/router/index.js
+        let routerAdmin = temAdmin.router.content(raw2);
+        fs.writeFileSync(`${adminPathExp}/src/router/index.js`, routerAdmin);
+
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {
         console.log(e);

@@ -191,3 +191,51 @@ code {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+
+//***************************************************
+//自定义样式
+.aImg{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.xixi{
+  width: 82px !important;
+}
+.swImg{
+  width: 110px;
+}
+
+.ipe{
+  width: 1000px;
+  padding: 30px 30px;
+}
+
+.addressDiv{
+  position: relative;
+  .list{
+    position: absolute;
+    z-index:3;
+    background: #fff;
+    padding-left: 12px;
+    padding-right: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    .one{
+      cursor: pointer;
+      margin-bottom: 10px;
+      .tp{
+        color: #333;
+        height: 22px;
+        font-size: 15px;
+      }
+      .bm{
+        color: #999;
+        height: 20px;
+        font-size: 14px;
+      }
+    }
+  }
+}

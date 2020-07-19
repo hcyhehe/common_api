@@ -35,9 +35,11 @@ exports.list = async function (req, res, next) {
 exports.add = async function (req, res, next) {
     try{
         let name = req.body.name;
+        let cname = req.body.cname;
         let sort = req.body.sort;
         let icon = req.body.icon;
         let is_deleted = req.body.is_deleted;
+        let is_order = req.body.is_order;
         let data = req.body.data;
         //console.log(name, sort, icon, data);
         if(!name){
@@ -45,8 +47,8 @@ exports.add = async function (req, res, next) {
         }
         let now = moment().format('YYYY-MM-DD HH:mm:ss');
 
-        let sql = ` insert into genecode(name, icon, sort, is_deleted, create_time)
-                    values('${name}', '${icon}', ${sort}, ${is_deleted}, '${now}') `;
+        let sql = ` insert into genecode(name, cname, icon, sort, is_deleted, is_order, create_time)
+                    values('${name}', '${cname}', '${icon}', ${sort}, ${is_deleted}, ${is_order}, '${now}') `;
         //console.log(sql);
         let [raw] = await conn.query(sql);
         let g_id = raw.insertId;
@@ -95,16 +97,19 @@ exports.edit = async function (req, res, next) {
     try{
         let id = req.body.id;
         let name = req.body.name;
+        let cname = req.body.cname;
         let sort = req.body.sort;
         let icon = req.body.icon;
         let is_deleted = req.body.is_deleted;
+        let is_order = req.body.is_order;
         let data = req.body.data;
         //console.log(name, sort, icon, data);
         if(!id || !name){
             return res.send({"code": 4000000, "msg": code[4000000] });
         }
 
-        let sql = ` update genecode set name = '${name}', icon = '${icon}', sort = ${sort}, is_deleted = ${is_deleted} 
+        let sql = ` update genecode set name = '${name}', cname = '${cname}', icon = '${icon}', sort = ${sort}, 
+                    is_deleted = ${is_deleted}, is_order = ${is_order} 
                     where id = ${id} `;
         await conn.query(sql);
 

@@ -228,10 +228,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.aImg{
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-}
-</style>
