@@ -55,10 +55,11 @@ exports.add = async function (req, res, next) {
 
         for(let i=0;i<data.length;i++){
             let sql2 = ` insert into genecode_detail(g_id, name, type, leng, deci, is_null, default_val, is_mkey, is_autoincre,
-                         remark, is_search, ft_type, is_sort, up_down)
+                         remark, is_search, ft_type, is_sort, up_down, cname, list_show)
                          values(${g_id}, '${data[i].name}', '${data[i].type}', ${data[i].leng}, ${data[i].deci}, ${data[i].is_null}, 
                          '${data[i].default_val}', ${data[i].is_mkey}, ${data[i].is_autoincre}, '${data[i].remark}', 
-                         ${data[i].is_search}, ${data[i].ft_type}, ${data[i].is_sort}, '${data[i].up_down}') `;
+                         ${data[i].is_search}, ${data[i].ft_type}, ${data[i].is_sort}, '${data[i].up_down}', '${data[i].cname}',
+                         ${data[i].list_show}) `;
             //console.log(sql2);
             await conn.query(sql2);
         }
@@ -120,10 +121,11 @@ exports.edit = async function (req, res, next) {
         //重新插入子项
         for(let i=0;i<data.length;i++){
             let sql2 = ` insert into genecode_detail(g_id, name, type, leng, deci, is_null, default_val, is_mkey, is_autoincre,
-                         remark, is_search, ft_type, is_sort, up_down)
+                         remark, is_search, ft_type, is_sort, up_down, cname, list_show)
                          values(${id}, '${data[i].name}', '${data[i].type}', ${data[i].leng}, ${data[i].deci}, ${data[i].is_null}, 
                          '${data[i].default_val}', ${data[i].is_mkey}, ${data[i].is_autoincre}, '${data[i].remark}', 
-                         ${data[i].is_search}, ${data[i].ft_type}, ${data[i].is_sort}, '${data[i].up_down}') `;
+                         ${data[i].is_search}, ${data[i].ft_type}, ${data[i].is_sort}, '${data[i].up_down}', '${data[i].cname}',
+                         ${data[i].list_show}) `;
             //console.log(sql2);
             await conn.query(sql2);
         }

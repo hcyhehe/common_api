@@ -77,6 +77,23 @@ exports.project = async function (req, res, next) {
         // 5)前端路由src/router/index.js
         let routerAdmin = temAdmin.router.content(raw2);
         fs.writeFileSync(`${adminPathExp}/src/router/index.js`, routerAdmin);
+        // 6)循环生成基本页面
+        for(let i=0;i<raw2.length;i++){
+            let name = raw2[i].name;
+            let dirPath = `${adminPathExp}/src/myviews/${name}`; 
+            if(!fs.existsSync(dirPath)) fs.mkdirSync(dirPath); //先判断文件夹是否存在
+            if(raw2[i].is_order == 1){  //常规类
+                let listHtml = temAdmin.listHtml.content(raw2[i]);
+                fs.writeFileSync(`${dirPath}/list.html`, listHtml);
+                let addHtml = temAdmin.addHtml.content(raw2[i]);
+                fs.writeFileSync(`${dirPath}/add.html`, addHtml);
+                let editHtml = temAdmin.editHtml.content(raw2[i]);
+                fs.writeFileSync(`${dirPath}/edit.html`, editHtml);
+            } else {  //订单类 / 基础信息类
+                let listHtml = temAdmin.listHtml.content(raw2[i]);
+                fs.writeFileSync(`${dirPath}/list.html`, listHtml);
+            } 
+        }
 
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
     } catch(e) {

@@ -4,13 +4,19 @@ exports.content = function (data1, data2, bgName) {
   let apiStr = '';
   for(let i=0;i<data2.length;i++){
     let name = data2[i].name;
-    apiStr += `
-    erp.${name}List = bg + '/${name}/list';
-    erp.${name}Add = bg + '/${name}/add';
-    erp.${name}Info = bg + '/${name}/info';
-    erp.${name}Edit = bg + '/${name}/edit';
-    erp.${name}Del = bg + '/${name}/del';
-    `;
+    if(data2[i].is_order==1){
+      apiStr += `
+      erp.${name}List = bg + '/${name}/list';
+      erp.${name}Add = bg + '/${name}/add';
+      erp.${name}Info = bg + '/${name}/info';
+      erp.${name}Edit = bg + '/${name}/edit';
+      erp.${name}Del = bg + '/${name}/del';
+      `;
+    } else {
+      apiStr += `
+      erp.${name}List = bg + '/${name}/list';
+      `;
+    }
   }
   
   const str = `

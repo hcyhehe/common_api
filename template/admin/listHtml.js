@@ -1,6 +1,7 @@
 const tool = require('../../commons/tool');
 
 exports.content = function (data) {
+  //console.log(data);
   
   const str = `
     <template>
