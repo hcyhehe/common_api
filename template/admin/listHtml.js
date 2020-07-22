@@ -1,13 +1,32 @@
 const tool = require('../../commons/tool');
 
 exports.content = function (data) {
-  //console.log(data);
+  let name = data.name;
+  let detail = data.detail;
+  let searchStr = '';
+  let searchParams = {
+    pages: 1,
+    limit: 10,
+  }
+  for(let i=0;i<detail.length;i++){
+    let itemName = detail[i].name;
+    let cname = detail[i].cname;
+    if(detail[i].is_search == 2){
+      searchStr += `
+        <el-input placeholder="${cname}" v-model.trim="params.${itemName}" style="width: 250px;" class="filter-item"/>
+      `;
+      searchParams[itemName] = '';
+    }
+  }
+  searchStr += `
+    <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+  `;
   
   const str = `
     <template>
       <div class="app-container">
         <div class="filter-container">
-          <!-- <el-input placeholder="轮播图" v-model.trim="params.nickname" style="width: 250px;" class="filter-item"/> -->
+          ${searchStr}
           <el-button v-waves class="filter-item" type="primary" icon="el-icon-edit" @click="add">添加</el-button>
         </div>
 
@@ -81,14 +100,13 @@ exports.content = function (data) {
           list: [],
           total: 0,
           listLoading: true,
-          params: {
-            pages: 1,
-            limit: 10,
-            nickname: '',
-          },
+          params: ${JSON.stringify(searchParams)},
         }
       },
       methods:{
+        search(){
+          this.getList();
+        },
         add(){
           this.$router.push({path:'/home/swipeAdd'});
         },
