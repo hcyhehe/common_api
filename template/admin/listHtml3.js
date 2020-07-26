@@ -127,6 +127,9 @@ exports.content = function (data) {
     ${fuImport}
 
     export default {
+      components:{
+        editor: Editor
+      },
       data(){
         return {
           userInfo: {},

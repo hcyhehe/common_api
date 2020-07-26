@@ -32,7 +32,7 @@ exports.content = function (data1, data2, bgName) {
     erp.gaodeKey = '35982f18ea3de896092a670f25a11537';
     erp.API_SECRET_KEY = '${data1.akey}';
     
-    const url = 'http://localhost:8088/${bgName}';
+    const url = 'http://localhost:${data1.port}/${data1.project_name}';
     
     const bg = url + '/bg';
     

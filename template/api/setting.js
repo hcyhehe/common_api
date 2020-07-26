@@ -19,7 +19,7 @@ exports.content = function (projectName, obj) {
             },
 
             /* api安全配置 */
-            API_SECRET_KEY: '',
+            API_SECRET_KEY: '${obj.akey}',
             H5_SECRET_KEY: '',
 
             /* 微信开发配置 */
@@ -39,7 +39,7 @@ exports.content = function (projectName, obj) {
             apiVersion: '',
 
             /* 静态文件域名 */
-            domain: 'http://127.0.0.1:${obj.port}/${projectName}',
+            domain: 'http://127.0.0.1:${obj.port}/${obj.project_name}',
         }
     `;
 

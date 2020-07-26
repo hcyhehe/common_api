@@ -55,7 +55,12 @@ exports.content = function (obj) {
         //6.日期 7.时间 8.日期时间 9.非表单时间记录 10.其他
         if(detail[i].ft_type == 5){  //图片上传
             addParams += `
-                let ${name} = req.body.${name}.join(',');`;
+                let ${name};
+                if(Array.isArray(${name})){
+                    ${name} = req.body.${name}.join(',');
+                } else {
+                    ${name} = req.body.${name};
+                }`;
         }
         if(detail[i].ft_type == 9){  //非表单时间记录字段，直接赋予当前时间
             addParams += `
@@ -106,7 +111,12 @@ exports.content = function (obj) {
         //6.日期 7.时间 8.日期时间 9.非表单时间记录 10.其他
         if(detail[i].ft_type == 5){  //图片上传
             editParams += `
-                let ${name} = req.body.${name}.join(',');`;
+                let ${name};
+                if(Array.isArray(${name})){
+                    ${name} = req.body.${name}.join(',');
+                } else {
+                    ${name} = req.body.${name};
+                }`;
         }
         if(detail[i].is_null == 1){  //非空检查
             editIsNotNullItem += ` !${name} ||`;

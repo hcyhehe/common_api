@@ -34,7 +34,12 @@ exports.content = function (obj) {
         //6.日期 7.时间 8.日期时间 9.非表单时间记录 10.其他
         if(detail[i].ft_type == 5){  //图片上传
             editParams += `
-                let ${name} = req.body.${name}.join(',');`;
+                let ${name};
+                if(Array.isArray(${name})){
+                    ${name} = req.body.${name}.join(',');
+                } else {
+                    ${name} = req.body.${name};
+                }`;
         }
         if(detail[i].is_mkey != 2 && detail[i].ft_type < 9){  //拼接更新sql
             if(detail[i].type == 'int' || detail[i].type == 'smallint' || detail[i].type == 'decimal'){
