@@ -1,3 +1,5 @@
+//订单类
+
 const tool = require('../../commons/tool');
 
 exports.content = function (data) {
@@ -55,14 +57,13 @@ exports.content = function (data) {
     <template>
       <div class="app-container">
         <div class="filter-container">${searchStr}
-          <el-button v-waves class="filter-item" type="primary" icon="el-icon-edit" @click="add">添加</el-button>
         </div>
 
         <el-table v-loading="listLoading" :key="tableKey" :data="list" border fit stripe highlight-current-row style="width: 100%;">
           ${listStr}
           <el-table-column label="操作" align="center" width="" class-name="small-padding fixed-width">
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="editPage(scope.row.${mKey})">编辑</el-button>
+              <el-button type="primary" size="mini" @click="infoPage(scope.row.${mKey})">审核</el-button>
               <el-button type="danger" size="mini" @click="rmPage(scope.row.${mKey})">删除</el-button>
             </template>
           </el-table-column>
@@ -105,9 +106,6 @@ exports.content = function (data) {
         search(){
           this.getList();
         },
-        add(){
-          this.$router.push({path:'/${name}/add'});
-        },
         getList(){
           let that = this;
           aGet(base.${name}List, this.params).then(res=>{
@@ -120,8 +118,15 @@ exports.content = function (data) {
             console.log(err);
           })
         },
-        editPage(${mKey}){
-          this.$router.push({path:'/${name}/edit', query:{${mKey}} });
+        infoPage(${mKey}){
+          let that = this;
+          this.$confirm('这里是提示消息', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'info'
+          }).then(() => {
+            
+          }).catch(() => {});
         },
         rmPage(${mKey}){
           let that = this;
@@ -139,7 +144,7 @@ exports.content = function (data) {
               }
             }).catch(err=>{
               console.log(err);
-            })
+            });
           }).catch(() => {});
         }
       },
@@ -155,3 +160,4 @@ exports.content = function (data) {
 
   return tool.beautyFile(str);
 }
+

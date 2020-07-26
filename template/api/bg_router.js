@@ -9,14 +9,29 @@ exports.content = function (data) {
     let name = data[i].name;
     fileImport += `
     const ${name} = require('../controllers/bg/${name}');`;
-    
-    router += `
+
+    if(data[i].is_order == 1){
+      router += `
     router.get('/${name}/list', check.verifyClient, ${name}.list);
     router.post('/${name}/add', check.verifyClient, ${name}.add);
     router.get('/${name}/info', check.verifyClient, ${name}.info);
     router.post('/${name}/edit', check.verifyClient, ${name}.edit);
     router.post('/${name}/del', check.verifyClient, ${name}.del);
-    `;
+      `;
+    } else if(data[i].is_order == 2) {
+      router += `
+    router.get('/${name}/list', check.verifyClient, ${name}.list);
+    router.get('/${name}/info', check.verifyClient, ${name}.info);
+    router.post('/${name}/del', check.verifyClient, ${name}.del);
+      `;
+    } else if(data[i].is_order == 3) {
+      router += `
+    router.get('/${name}/info', check.verifyClient, ${name}.info);
+    router.post('/${name}/edit', check.verifyClient, ${name}.edit);
+      `;
+    } else {
+
+    }
   }
 
   const str = `

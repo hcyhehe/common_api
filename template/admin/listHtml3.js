@@ -1,3 +1,5 @@
+//基础信息类
+
 const tool = require('../../commons/tool');
 
 exports.content = function (data) {
@@ -9,11 +11,14 @@ exports.content = function (data) {
   let fuImport = '';  //富文本需要引入的插件
   let fuSubmit = '';  //获取富文本内容
   let uploadFun = '';  //图片上传函数
+  let getInfoStr = '';   //还原详情内容
   for(let i=0;i<detail.length;i++){
     let name = detail[i].name;
     let cname = detail[i].cname;
     if(detail[i].is_mkey==1 && detail[i].ft_type!=9 && detail[i].ft_type!=10){
       params[name] = '';
+      getInfoStr += `
+              that.params.${name} = data.${name};`;
       if(detail[i].ft_type == 1){  //input
         addItem += `
           <el-form-item label="${cname}">
@@ -43,7 +48,7 @@ exports.content = function (data) {
     import 'tinymce/plugins/colorpicker'
     import 'tinymce/plugins/textcolor'
     import 'tinymce/plugins/code'`;
-      
+
         fuSubmit += `this.params.${name} = tinymce.editors[0].getContent();
         `;
         addItem += `
@@ -76,6 +81,10 @@ exports.content = function (data) {
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
             </el-upload>
           </el-form-item>`;
+        getInfoStr += `
+              that.fileList = [];
+              let obj = {url: data.${name}};
+              that.fileList.push(obj);`;
       }
       if(detail[i].ft_type == 6){  //日期
         addItem += `
@@ -143,6 +152,19 @@ exports.content = function (data) {
       },
 
       methods:{
+        getInfo(){
+          let that = this;
+          aGet(base.${Name}Info).then(res=>{
+            //console.log('${Name}Info', res.data);
+            if(res.data.code==2000000){
+              let data = res.data.data;
+              ${getInfoStr}
+            }
+          }).catch(err=>{
+            console.log(err);
+          })
+        },
+
         onSubmit(){
           let that = this;
           ${fuSubmit}
@@ -152,10 +174,9 @@ exports.content = function (data) {
               return this.$message.warning('填写不完整');
             }
           }
-          aPost(base.${Name}Add, that.params).then(res=>{
+          aPost(base.${Name}Edit, that.params).then(res=>{
             if(res.data.code==2000000){
-              that.$message.success('提交成功');
-              that.$router.push({path:'/${Name}/list'});
+              that.$message.success('编辑成功');
             } else {
               that.$message.warning(res.data.msg);
             }
@@ -172,8 +193,8 @@ exports.content = function (data) {
       },
 
       mounted(){
-        
-      }
+        this.getInfo();
+      },
     }
     </script>
   `;

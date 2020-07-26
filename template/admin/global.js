@@ -6,16 +6,23 @@ exports.content = function (data1, data2, bgName) {
     let name = data2[i].name;
     if(data2[i].is_order==1){
       apiStr += `
-      erp.${name}List = bg + '/${name}/list';
-      erp.${name}Add = bg + '/${name}/add';
-      erp.${name}Info = bg + '/${name}/info';
-      erp.${name}Edit = bg + '/${name}/edit';
-      erp.${name}Del = bg + '/${name}/del';
+    erp.${name}List = bg + '/${name}/list';
+    erp.${name}Add = bg + '/${name}/add';
+    erp.${name}Info = bg + '/${name}/info';
+    erp.${name}Edit = bg + '/${name}/edit';
+    erp.${name}Del = bg + '/${name}/del';
+      `;
+    } else if(data2[i].is_order==2) {  //订单类
+      apiStr += `
+    erp.${name}List = bg + '/${name}/list';
+      `;
+    } else if(data2[i].is_order==3) {  //基础信息类
+      apiStr += `
+    erp.${name}Info = bg + '/${name}/info';
+    erp.${name}Edit = bg + '/${name}/edit';
       `;
     } else {
-      apiStr += `
-      erp.${name}List = bg + '/${name}/list';
-      `;
+
     }
   }
   

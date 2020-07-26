@@ -1,15 +1,76 @@
 const tool = require('../../commons/tool');
 
 exports.content = function (data) {
-  
-  const str = `
-    <template>
-      <div class="ipe">
-        <el-form ref="form" label-width="80px">
-          <el-form-item label="排序">
-            <el-input v-model.trim="params.sort" placeholder="请输入排序" style="width:200px;" clearable></el-input>
-          </el-form-item>
-          <el-form-item label="图片">
+  let Name = data.name;
+  let detail = data.detail;
+
+  let params = {};
+  let addItem = '';
+  let fuImport = '';  //富文本需要引入的插件
+  let fuSubmit = '';  //获取富文本内容
+  let uploadFun = '';  //图片上传函数
+  let mKey = '';  //主键
+  let getInfoStr = '';   //还原详情内容
+  for(let i=0;i<detail.length;i++){
+    let name = detail[i].name;
+    let cname = detail[i].cname;
+    if(detail[i].is_mkey == 2){
+      mKey = name;
+      params[name] = '';
+    }
+    if(detail[i].is_mkey==1 && detail[i].ft_type!=9 && detail[i].ft_type!=10){
+      params[name] = '';
+      getInfoStr += `
+              that.params.${name} = data.${name};`;
+      if(detail[i].ft_type == 1){  //input
+        addItem += `
+          <el-form-item label="${cname}">
+            <el-input v-model.trim="params.${name}" placeholder="请输入${cname}" style="width:300px;" clearable></el-input>
+          </el-form-item>`;
+      }
+      if(detail[i].ft_type == 2){  //select
+        addItem += `
+          <el-form-item label="${cname}">
+            <el-select v-model="params.${name}" placeholder="请选择">
+              <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value"></el-option>
+            </el-select>
+          </el-form-item>`;
+      }
+      if(detail[i].ft_type == 3){  //textarea文本框
+        addItem += `
+          <el-form-item label="${cname}">
+            <el-input type="textarea" :rows="2" v-model.trim="params.${name}" placeholder="请输入${cname}" style="width:300px;" clearable></el-input>
+          </el-form-item>`;
+      }
+      if(detail[i].ft_type == 4){  //富文本框
+        fuImport = `import tinymce from 'tinymce/tinymce'
+    import 'tinymce/themes/modern/theme'
+    import Editor from '@tinymce/tinymce-vue'
+    import 'tinymce/plugins/uploadimage'
+    import 'tinymce/plugins/uploadvideo'
+    import 'tinymce/plugins/colorpicker'
+    import 'tinymce/plugins/textcolor'
+    import 'tinymce/plugins/code'`;
+
+        fuSubmit = `this.params.${name} = tinymce.editors[0].getContent();
+        `;
+        addItem += `
+          <el-form-item label="${cname}">
+            <editor id="tinymce${i}" v-model="params.${name}" :init="editorInit"></editor>
+          </el-form-item>`;
+      }
+      if(detail[i].ft_type == 5){  //图片上传
+        uploadFun = `handleRemove(file, fileList){
+          this.params.img_url = '';
+        },
+        handleExceed(file, fileList){
+          this.$message.warning('只能上传一张图片，请删除后再重新上传');
+        },
+        handleSuccess(res, file, fileList){
+          this.params.img_url = res.fileurl;
+        },`;
+        addItem += `
+          <el-form-item label="${cname}">
             <el-upload
               class="upload-demo"
               :limit="limit"
@@ -22,27 +83,37 @@ exports.content = function (data) {
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
             </el-upload>
-          </el-form-item>
-          <el-form-item label="链接类型">
-            <el-select v-model="params.href_type" placeholder="请选择">
-              <el-option v-for="item in options2" :label="item.label" :value="item.value" :key="item.value"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item v-if="params.href_type==1" label="选择商品">
-            <el-select v-model="params.goods_id" placeholder="请选择商品">
-              <el-option v-for="item in list" :label="item.name" :value="item.id" :key="item.id"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item v-if="params.href_type==2" label="链接地址">
-            <el-input v-model.trim="params.href" placeholder="请输入链接地址" style="width:400px;" clearable>
-            </el-input>
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-select v-model="params.status" placeholder="请选择">
-              <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value"></el-option>
-            </el-select>
-          </el-form-item>
+          </el-form-item>`;
+        getInfoStr += `
+              that.fileList = [];
+              let obj = {url: data.${name}};
+              that.fileList.push(obj);`;
+      }
+      if(detail[i].ft_type == 6){  //日期
+        addItem += `
+          <el-form-item label="${cname}">
+            <el-date-picker v-model="params.${name}" type="date" placeholder="选择日期"></el-date-picker>
+          </el-form-item>`;
+      }
+      if(detail[i].ft_type == 7){  //时间
+        addItem += `
+          <el-form-item label="${cname}">
+            <el-time-select v-model="params.${name}" placeholder="选择时间"></el-time-select>
+          </el-form-item>`;
+      }
+      if(detail[i].ft_type == 8){  //日期时间
+        addItem += `
+          <el-form-item label="${cname}">
+            <el-date-picker v-model="params.${name}" type="datetime" placeholder="请选择日期"></el-date-picker>
+          </el-form-item>`;
+      }
+    }
+  }
 
+  const str = `
+    <template>
+      <div class="ipe">
+        <el-form ref="form" label-width="80px">${addItem}
           <el-form-item>
             <el-button type="primary" @click="onSubmit">提交</el-button>
           </el-form-item>
@@ -53,90 +124,64 @@ exports.content = function (data) {
     <script>
     import base from '@/js/global'
     import { aGet, aPost } from '@/js/request'
+    import { judgeNum1 } from '@/js/fun'
     import moment from 'moment'
-    import { judgeNum1, judgeNum2 } from '@/js/fun'
 
+    ${fuImport}
 
     export default {
       data(){
         return {
           userInfo: {},
-          params: {
-            id: '',
-            sort: '',
-            img_url: '',
-            status: 1,
-            href_type: '',
-            goods_id: '',
-            href: '',
+          params: ${JSON.stringify(params)},
+          editorInit: {
+            language_url: './static/tinymce/zh_CN.js',
+            language: 'zh_CN',
+            skin_url: './static/tinymce/skins/lightgray',
+            height: 400,
+            plugins: ' uploadimage uploadvideo code colorpicker textcolor ',
+            toolbar:
+            'bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist |'+ 
+            ' outdent indent blockquote | undo redo | uploadimage uploadvideo | code removeformat',
+            branding: false,
+            upload_image_url: base.upload,
           },
           upload: base.upload,
           fileList: [],
           limit: 1,
-          options: [{label:'上架', value:1}, {label:'下架', value:2}],
-          options2: [{label:'内链', value:1}, {label:'外链', value:2}, {label:'会员卡', value:3}],
+          options: [{label:'否', value:1}, {label:'是', value:2}],
           list: [],
         }
       },
+
       methods:{
-        goodsList2(){
+        getInfo(){
           let that = this;
-          aGet(base.goodsList2).then(res=>{
-            console.log('goodsList2', res.data)
-            if(res.data.code==2000000){
-              that.list = res.data.data
-            } else {
-              that.$message.warning(res.data.msg);
-            }
-          }).catch(err=>{
-            console.log(err);
-          })
-        },
-        getData(){
-          let that = this;
-          let id = this.params.id;
-          aGet(base.swipeInfo, {id:id}).then(res=>{
-            //console.log('swipeInfo', res.data);
+          let ${mKey} = this.params.${mKey};
+          aGet(base.${Name}Info, {${mKey}}).then(res=>{
+            //console.log('${Name}Info', res.data);
             if(res.data.code==2000000){
               let data = res.data.data;
-              that.params.sort = data.sort;
-              that.params.status = data.status;
-              that.params.img_url = data.img_url;
-              that.params.href_type = data.href_type
-              that.params.goods_id = data.goods_id
-              that.params.href = data.href
-              that.fileList = [];
-              let obj = {url: data.img_url};
-              that.fileList.push(obj);
+              ${getInfoStr}
             }
           }).catch(err=>{
             console.log(err);
           })
         },
+
         onSubmit(){
           let that = this;
+          ${fuSubmit}
           console.log('this.params', this.params);
           for(let i in this.params){
-            if(!this.params[i] && i!='goods_id' && i!='href'){
-              this.$message.warning('填写不完整');
-              return false;
+            if(!String(this.params[i])){
+              return this.$message.warning('填写不完整');
             }
           }
-          if(this.params.href_type==1 && !this.params.goods_id){
-            return this.$message.warning('请选择商品')
-          }
-          if(this.params.href_type==2 && !this.params.href){
-            return this.$message.warning('请填写外链')
-          }
-          if(!judgeNum2(this.params.sort)){
-            this.$message.warning('排序不是正整数');
-            return false;
-          }
-          aPost(base.swipeEdit, that.params).then(res=>{
+          aPost(base.${Name}Edit, that.params).then(res=>{
             if(res.data.code==2000000){
-              that.$message.success('修改成功');
-              that.getData();
-              that.$router.push({path:'/home/swipe'});
+              that.$message.success('编辑成功');
+              that.$router.push({path:'/${Name}/list'});
             } else {
               that.$message.warning(res.data.msg);
             }
@@ -144,24 +189,17 @@ exports.content = function (data) {
             console.log(err);
           })
         },
-        handleRemove(file, fileList){
-          this.params.img_url = '';
-        },
-        handleExceed(file, fileList){
-          this.$message.warning('只能上传一张图片，请删除后再重新上传');
-        },
-        handleSuccess(res, file, fileList){
-          this.params.img_url = res.fileurl;
-        },
+
+        ${uploadFun}
       },
+
       created(){
-        this.userInfo = JSON.parse(localStorage.getItem('st_userinfo'));
-        this.params.id = this.$route.query.id;
+        this.params.${mKey} = this.$route.query.${mKey};
       },
+
       mounted(){
-        this.getData()
-        this.goodsList2()
-      }
+        this.getInfo();
+      },
     }
     </script>
   `;

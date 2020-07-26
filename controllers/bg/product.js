@@ -51,8 +51,18 @@ exports.project = async function (req, res, next) {
         fs.writeFileSync(`${apiPathExp}/config/setting.js`, setting);
         // 5)循环生成CURD
         for(let i=0;i<raw2.length;i++){
-            let curd = temApi.curd.content(raw2[i]);
-            fs.writeFileSync(`${apiPathExp}/controllers/bg/${raw2[i].name}.js`, curd);
+            if(raw2[i].is_order == 1){  //常规类
+                let curd = temApi.curd.content(raw2[i]);
+                fs.writeFileSync(`${apiPathExp}/controllers/bg/${raw2[i].name}.js`, curd);
+            } else if(raw2[i].is_order == 2) {  //订单类
+                let curd2 = temApi.curd2.content(raw2[i]);
+                fs.writeFileSync(`${apiPathExp}/controllers/bg/${raw2[i].name}.js`, curd2);
+            } else if(raw2[i].is_order == 3) {  //基础信息类
+                let curd3 = temApi.curd3.content(raw2[i]);
+                fs.writeFileSync(`${apiPathExp}/controllers/bg/${raw2[i].name}.js`, curd3);
+            } else {
+
+            }
         }
         // 6)生成bg的路由
         let bgRouter = temApi.bgRouter.content(raw2);
@@ -89,10 +99,15 @@ exports.project = async function (req, res, next) {
                 fs.writeFileSync(`${dirPath}/add.vue`, addHtml);
                 let editHtml = temAdmin.editHtml.content(raw2[i]);
                 fs.writeFileSync(`${dirPath}/edit.vue`, editHtml);
-            } else {  //订单类 / 基础信息类
-                let listHtml = temAdmin.listHtml.content(raw2[i]);
-                fs.writeFileSync(`${dirPath}/list.vue`, listHtml);
-            } 
+            } else if(raw2[i].is_order == 2) {  //订单类
+                let listHtml2 = temAdmin.listHtml2.content(raw2[i]);
+                fs.writeFileSync(`${dirPath}/list.vue`, listHtml2);
+            } else if(raw2[i].is_order == 3) {  //基础信息类
+                let listHtml3 = temAdmin.listHtml3.content(raw2[i]);
+                fs.writeFileSync(`${dirPath}/list.vue`, listHtml3);
+            } else {
+
+            }
         }
 
         res.send({ "code": 2000000, "msg": code['2000000'], data:{} });
