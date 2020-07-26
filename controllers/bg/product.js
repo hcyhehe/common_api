@@ -84,14 +84,14 @@ exports.project = async function (req, res, next) {
             if(!fs.existsSync(dirPath)) fs.mkdirSync(dirPath); //先判断文件夹是否存在
             if(raw2[i].is_order == 1){  //常规类
                 let listHtml = temAdmin.listHtml.content(raw2[i]);
-                fs.writeFileSync(`${dirPath}/list.html`, listHtml);
+                fs.writeFileSync(`${dirPath}/list.vue`, listHtml);
                 let addHtml = temAdmin.addHtml.content(raw2[i]);
-                fs.writeFileSync(`${dirPath}/add.html`, addHtml);
+                fs.writeFileSync(`${dirPath}/add.vue`, addHtml);
                 let editHtml = temAdmin.editHtml.content(raw2[i]);
-                fs.writeFileSync(`${dirPath}/edit.html`, editHtml);
+                fs.writeFileSync(`${dirPath}/edit.vue`, editHtml);
             } else {  //订单类 / 基础信息类
                 let listHtml = temAdmin.listHtml.content(raw2[i]);
-                fs.writeFileSync(`${dirPath}/list.html`, listHtml);
+                fs.writeFileSync(`${dirPath}/list.vue`, listHtml);
             } 
         }
 

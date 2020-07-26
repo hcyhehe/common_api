@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-07-20 23:40:33
+Date: 2020-07-26 18:09:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('1', 'admin', '4297f44b13955235245b2497399d7a93', '2', null, '2020-05-23 01:03:47', '2020-07-20 21:27:14', '127.0.0.1');
+INSERT INTO `admin` VALUES ('1', 'admin', '4297f44b13955235245b2497399d7a93', '2', null, '2020-05-23 01:03:47', '2020-07-26 17:57:10', '127.0.0.1');
 INSERT INTO `admin` VALUES ('8', 'admin2', 'c4ca4238a0b923820dcc509a6f75849b', '1', null, '2020-05-24 00:41:26', null, null);
 INSERT INTO `admin` VALUES ('9', 'admin3', '4297f44b13955235245b2497399d7a93', '1', null, '2020-06-27 17:26:52', '2020-06-27 22:24:16', '127.0.0.1');
 
@@ -109,7 +109,7 @@ CREATE TABLE `genecode_detail` (
   `up_down` varchar(4) DEFAULT 'desc' COMMENT '升或降：1升，2降',
   `list_show` smallint(4) DEFAULT '2' COMMENT '前端列表显示：1否，2是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of genecode_detail
@@ -129,11 +129,11 @@ INSERT INTO `genecode_detail` VALUES ('148', '4', 'act_time1', '活动时间1', 
 INSERT INTO `genecode_detail` VALUES ('149', '4', 'act_time2', '活动时间2', 'datetime', '0', '0', '1', '', '1', '1', '活动时间2', '1', '8', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('150', '4', 'sort', '排序', 'smallint', '4', '0', '2', '1', '1', '1', '排序', '1', '1', '2', 'asc', '2');
 INSERT INTO `genecode_detail` VALUES ('151', '4', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('159', '11', 'id', 'id', 'int', '11', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('160', '11', 'name1', '名称1', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('161', '11', 'name2', '名称2', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('162', '11', 'detail1', '详情1', 'int', '11', '0', '1', '', '1', '1', '', '1', '4', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('163', '11', 'detail2', '详情2', 'int', '11', '0', '1', '', '1', '1', '', '1', '4', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('164', '11', 'id', 'id', 'int', '11', '0', '1', '', '2', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('165', '11', 'name1', '名称1', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('166', '11', 'name2', '名称2', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('167', '11', 'detail1', '详情1', 'text', '0', '0', '1', '', '1', '1', '', '1', '4', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('168', '11', 'detail2', '详情2', 'text', '0', '0', '1', '', '1', '1', '', '1', '4', '1', 'desc', '2');
 
 -- ----------------------------
 -- Table structure for `orders`
