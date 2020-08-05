@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2020-08-03 23:15:03
+Date: 2020-08-06 02:15:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -91,7 +91,7 @@ INSERT INTO `genecode` VALUES ('7', 'locus_log', '轨迹历史', 'tab', '7', '1'
 INSERT INTO `genecode` VALUES ('8', 'locus_log_detail', '轨迹详情', 'tab', '8', '1', '2', '2020-08-02 21:41:13');
 INSERT INTO `genecode` VALUES ('9', 'remind_task', '定制任务', 'peoples', '9', '1', '1', '2020-08-02 22:31:35');
 INSERT INTO `genecode` VALUES ('10', 'plate_log', '车牌搜索历史', 'table', '10', '1', '2', '2020-08-02 22:42:14');
-INSERT INTO `genecode` VALUES ('11', 'manual_check', '人工查询', 'excel', '11', '2', '2', '2020-08-02 23:34:03');
+INSERT INTO `genecode` VALUES ('11', 'manual_check', '人工查询', 'excel', '11', '2', '1', '2020-08-02 23:34:03');
 INSERT INTO `genecode` VALUES ('12', 'advert', '广告', 'shopping', '12', '1', '1', '2020-08-02 23:58:47');
 INSERT INTO `genecode` VALUES ('13', 'check_shop', '商家入驻', 'documentation', '13', '2', '1', '2020-08-03 00:54:01');
 INSERT INTO `genecode` VALUES ('14', 'check_shop_baddr', '商家经营驻地', 'list', '14', '1', '1', '2020-08-03 00:59:06');
@@ -100,9 +100,9 @@ INSERT INTO `genecode` VALUES ('16', 'check_shop_wx', '业务微信', 'list', '1
 INSERT INTO `genecode` VALUES ('17', 'shop_tag', '商家标签', 'list', '17', '1', '1', '2020-08-03 01:08:39');
 INSERT INTO `genecode` VALUES ('18', 'shop_good', '点赞与浏览', 'list', '18', '1', '2', '2020-08-03 01:12:26');
 INSERT INTO `genecode` VALUES ('19', 'complain', '投诉', 'example', '19', '1', '2', '2020-08-03 01:17:02');
-INSERT INTO `genecode` VALUES ('20', 'check_order', '检测需求', 'excel', '20', '2', '2', '2020-08-03 21:28:41');
+INSERT INTO `genecode` VALUES ('20', 'check_order', '检测需求', 'excel', '20', '2', '1', '2020-08-03 21:28:41');
 INSERT INTO `genecode` VALUES ('21', 'check_comment', '检测评论', 'tree', '21', '1', '1', '2020-08-03 21:51:04');
-INSERT INTO `genecode` VALUES ('22', 'driver_order', '司机调度', 'chart', '22', '2', '2', '2020-08-03 22:23:48');
+INSERT INTO `genecode` VALUES ('22', 'driver_order', '司机调度', 'chart', '22', '2', '1', '2020-08-03 22:23:48');
 INSERT INTO `genecode` VALUES ('23', 'recharge_log', '充值记录', 'list', '23', '1', '2', '2020-08-03 22:29:42');
 INSERT INTO `genecode` VALUES ('24', 'withdraw_log', '提现记录', 'list', '24', '1', '2', '2020-08-03 22:40:16');
 
@@ -129,7 +129,7 @@ CREATE TABLE `genecode_detail` (
   `up_down` varchar(4) DEFAULT 'desc' COMMENT '升或降：1升，2降',
   `list_show` smallint(4) DEFAULT '2' COMMENT '前端列表显示：1否，2是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=577 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=635 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of genecode_detail
@@ -203,41 +203,6 @@ INSERT INTO `genecode_detail` VALUES ('274', '2', 'relation', '车辆从属关�
 INSERT INTO `genecode_detail` VALUES ('275', '2', 'status', '审核状态', 'smallint', '4', '0', '1', '', '1', '1', '', '1', '2', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('276', '2', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '2', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('277', '2', 'verify_time', '审核时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('399', '11', 'id', 'id', 'int', '11', '0', '1', '', '2', '2', '', '1', '10', '1', 'desc', '1');
-INSERT INTO `genecode_detail` VALUES ('400', '11', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('401', '11', 'id_num', '身份证号', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('402', '11', 'name', '姓名', 'text', '0', '0', '1', '', '1', '1', '', '2', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('403', '11', 'id_prov', '省1', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('404', '11', 'id_city', '市1', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('405', '11', 'cert_prov', '省2', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('406', '11', 'cert_city', '市2', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('407', '11', 'cert_imgs', '资格证照片', 'text', '0', '0', '1', '', '1', '1', '', '1', '5', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('408', '11', 'phone', '手机号', 'text', '0', '0', '1', '', '1', '1', '', '2', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('409', '11', 'status', '状态', 'smallint', '4', '0', '1', '', '1', '1', '1已预约，2核查中，3真实无误，4不存在', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('410', '11', 'create_time', '提交时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '2', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('411', '11', 'verify_time', '审核时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('412', '20', 'order_id', '订单id', 'varchar', '30', '0', '1', '', '2', '1', '', '2', '10', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('413', '20', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('414', '20', 'shop_id', '商家id', 'int', '11', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '1');
-INSERT INTO `genecode_detail` VALUES ('415', '20', 'prov', '省', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('416', '20', 'city', '市', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('417', '20', 'addr', '详细地址', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('418', '20', 'up_plate', '上牌', 'smallint', '4', '0', '1', '', '1', '1', '上牌', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('419', '20', 'year_verify', '年审', 'smallint', '4', '0', '1', '', '1', '1', '年审', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('420', '20', 'transfer', '过户', 'smallint', '4', '0', '1', '', '1', '1', '过户', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('421', '20', 'car_type', '车辆类型', 'smallint', '4', '0', '1', '', '1', '1', '车辆类型', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('422', '20', 'car_quality', '车辆性质', 'smallint', '4', '0', '1', '', '1', '1', '车辆性质', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('423', '20', 'car_num', '车辆型号', 'text', '0', '0', '1', '', '1', '1', '车辆型号', '2', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('424', '20', 'car_name', '车辆名称', 'text', '0', '0', '1', '', '1', '1', '车辆名称', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('425', '20', 'car_last', '车架号后8位', 'text', '0', '0', '1', '', '1', '1', '车架号后8位', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('426', '20', 'car_img', '车辆图片', 'text', '0', '0', '1', '', '1', '1', '车辆图片', '1', '5', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('427', '20', 'phone', '手机号', 'text', '0', '0', '1', '', '1', '1', '手机号', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('428', '20', 'status', '状态', 'smallint', '4', '0', '1', '1', '1', '1', '状态', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('429', '20', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '创建时间', '1', '9', '2', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('430', '20', 'appoint_time', '预约时间', 'datetime', '0', '0', '2', '', '1', '1', '预约时间', '1', '9', '1', 'desc', '1');
-INSERT INTO `genecode_detail` VALUES ('431', '20', 'call_time1', '拨打时间1', 'datetime', '0', '0', '2', '', '1', '1', '拨打时间1', '1', '7', '1', 'desc', '1');
-INSERT INTO `genecode_detail` VALUES ('432', '20', 'call_time2', '拨打时间2', 'datetime', '0', '0', '2', '', '1', '1', '拨打时间2', '1', '7', '1', 'desc', '1');
-INSERT INTO `genecode_detail` VALUES ('433', '20', 'finish_time', '完成时间', 'datetime', '0', '0', '2', '', '1', '1', '完成时间', '1', '9', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('434', '13', 'id', 'id', 'int', '11', '0', '1', '', '2', '2', '', '1', '10', '1', 'desc', '1');
 INSERT INTO `genecode_detail` VALUES ('435', '13', 'in_cate1', '入驻类型1', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('436', '13', 'in_cate2', '入驻类型2', 'smallint', '4', '0', '1', '', '1', '1', '1商家，2个人', '1', '2', '1', 'desc', '2');
@@ -288,22 +253,6 @@ INSERT INTO `genecode_detail` VALUES ('480', '21', 'imgs', '评论图片', 'text
 INSERT INTO `genecode_detail` VALUES ('481', '21', 'point', '评分', 'smallint', '4', '0', '1', '', '1', '1', '评分', '1', '1', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('482', '21', 'tags', '标签', 'text', '0', '0', '1', '', '1', '1', '标签', '1', '1', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('483', '21', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '2', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('484', '22', 'order_id', '订单id', 'varchar', '30', '0', '1', '', '2', '1', '', '2', '10', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('485', '22', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('486', '22', 'type', '类型', 'smallint', '4', '0', '1', '1', '1', '1', '1找，2做', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('487', '22', 'start_time', '开始时间', 'datetime', '0', '0', '1', '', '1', '1', '开始时间', '1', '8', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('488', '22', 'end_time', '截止时间', 'datetime', '0', '0', '1', '', '1', '1', '截止时间', '1', '8', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('489', '22', 'start_addr', '出发地', 'text', '0', '0', '1', '', '1', '1', '出发地', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('490', '22', 'end_addr', '目的地', 'text', '0', '0', '1', '', '1', '1', '目的地', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('491', '22', 'price', '价格', 'decimal', '11', '2', '1', '0', '1', '1', '价格', '1', '1', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('492', '22', 'car_type', '车型', 'smallint', '4', '0', '1', '', '1', '1', '车型', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('493', '22', 'brand', '品牌', 'smallint', '4', '0', '1', '', '1', '1', '品牌', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('494', '22', 'car_spec', '类型规格', 'smallint', '4', '0', '1', '', '1', '1', '类型规格', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('495', '22', 'car_status', '车状态', 'smallint', '4', '0', '1', '', '1', '1', '车状态', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('496', '22', 'lisence_type', '驾照类型', 'smallint', '4', '0', '1', '', '1', '1', '驾照类型', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('497', '22', 'status', '状态', 'smallint', '4', '0', '1', '', '1', '1', '', '1', '2', '1', 'desc', '2');
-INSERT INTO `genecode_detail` VALUES ('498', '22', 'remark', '备注', 'text', '0', '0', '1', '', '1', '1', '备注', '1', '3', '1', 'desc', '1');
-INSERT INTO `genecode_detail` VALUES ('499', '22', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '2', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('505', '24', 'id', 'id', 'int', '11', '0', '1', '', '2', '2', '', '1', '10', '1', 'desc', '1');
 INSERT INTO `genecode_detail` VALUES ('506', '24', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('507', '24', 'amount', '提现金额', 'decimal', '11', '2', '1', '', '1', '1', '提现金额', '1', '1', '1', 'desc', '2');
@@ -376,6 +325,54 @@ INSERT INTO `genecode_detail` VALUES ('573', '23', 'openid', '用户id', 'text',
 INSERT INTO `genecode_detail` VALUES ('574', '23', 'amount', '金额', 'decimal', '11', '2', '1', '', '1', '1', '金额', '1', '1', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('575', '23', 'type', '类型', 'smallint', '4', '0', '1', '', '1', '1', '1微信', '1', '2', '1', 'desc', '2');
 INSERT INTO `genecode_detail` VALUES ('576', '23', 'create_time', '充值时间', 'datetime', '0', '0', '1', '', '1', '1', '充值时间', '1', '9', '2', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('587', '11', 'id', 'id', 'int', '11', '0', '1', '', '2', '2', '', '1', '10', '1', 'desc', '1');
+INSERT INTO `genecode_detail` VALUES ('588', '11', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('589', '11', 'id_num', '身份证号', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('590', '11', 'name', '姓名', 'text', '0', '0', '1', '', '1', '1', '', '2', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('591', '11', 'cert_img1', '卡片式资格证', 'text', '0', '0', '1', '', '1', '1', '卡片式资格证', '1', '5', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('592', '11', 'cert_img2', '本子式资格证', 'text', '0', '0', '1', '', '1', '1', '本子式资格证', '1', '5', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('593', '11', 'phone', '手机号', 'text', '0', '0', '1', '', '1', '1', '', '2', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('594', '11', 'status', '状态', 'smallint', '4', '0', '1', '', '1', '1', '1已预约，2核查中，3真实无误，4不存在', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('595', '11', 'create_time', '提交时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '2', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('596', '11', 'verify_time', '审核时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('597', '22', 'order_id', '订单id', 'varchar', '30', '0', '1', '', '2', '1', '', '2', '10', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('598', '22', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('599', '22', 'type', '类型', 'smallint', '4', '0', '1', '1', '1', '1', '1找，2做', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('600', '22', 'start_time', '开始时间', 'datetime', '0', '0', '1', '', '1', '1', '开始时间', '1', '8', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('601', '22', 'end_time', '截止时间', 'datetime', '0', '0', '1', '', '1', '1', '截止时间', '1', '8', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('602', '22', 'start_addr', '出发地', 'text', '0', '0', '1', '', '1', '1', '出发地', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('603', '22', 'end_addr', '目的地', 'text', '0', '0', '1', '', '1', '1', '目的地', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('604', '22', 'price', '价格', 'decimal', '11', '2', '1', '0', '1', '1', '价格', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('605', '22', 'car_type', '车型', 'smallint', '4', '0', '1', '', '1', '1', '车型', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('606', '22', 'brand', '品牌', 'smallint', '4', '0', '1', '', '1', '1', '品牌', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('607', '22', 'car_spec', '类型规格', 'smallint', '4', '0', '1', '', '1', '1', '类型规格', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('608', '22', 'car_status', '车状态', 'smallint', '4', '0', '1', '', '1', '1', '车状态', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('609', '22', 'lisence_type', '驾照类型', 'smallint', '4', '0', '1', '', '1', '1', '驾照类型', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('610', '22', 'status', '状态', 'smallint', '4', '0', '1', '', '1', '1', '', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('611', '22', 'remark', '备注', 'text', '0', '0', '1', '', '1', '1', '备注', '1', '3', '1', 'desc', '1');
+INSERT INTO `genecode_detail` VALUES ('612', '22', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '', '1', '9', '2', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('613', '20', 'order_id', '订单id', 'varchar', '30', '0', '1', '', '2', '1', '', '2', '10', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('614', '20', 'openid', '用户id', 'text', '0', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('615', '20', 'shop_id', '商家id', 'int', '11', '0', '1', '', '1', '1', '', '1', '10', '1', 'desc', '1');
+INSERT INTO `genecode_detail` VALUES ('616', '20', 'prov', '省', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('617', '20', 'city', '市', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('618', '20', 'addr', '详细地址', 'text', '0', '0', '1', '', '1', '1', '', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('619', '20', 'up_plate', '上牌', 'smallint', '4', '0', '1', '', '1', '1', '上牌', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('620', '20', 'year_verify', '年审', 'smallint', '4', '0', '1', '', '1', '1', '年审', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('621', '20', 'transfer', '过户', 'smallint', '4', '0', '1', '', '1', '1', '过户', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('622', '20', 'car_type', '车辆类型', 'smallint', '4', '0', '1', '', '1', '1', '车辆类型', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('623', '20', 'car_quality', '车辆性质', 'smallint', '4', '0', '1', '', '1', '1', '车辆性质', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('624', '20', 'car_num', '车辆型号', 'text', '0', '0', '1', '', '1', '1', '车辆型号', '2', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('625', '20', 'car_name', '车辆名称', 'text', '0', '0', '1', '', '1', '1', '车辆名称', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('626', '20', 'car_last', '车架号后8位', 'text', '0', '0', '1', '', '1', '1', '车架号后8位', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('627', '20', 'car_img', '车辆图片', 'text', '0', '0', '1', '', '1', '1', '车辆图片', '1', '5', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('628', '20', 'phone', '手机号', 'text', '0', '0', '1', '', '1', '1', '手机号', '1', '1', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('629', '20', 'status', '状态', 'smallint', '4', '0', '1', '1', '1', '1', '状态', '1', '2', '1', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('630', '20', 'create_time', '创建时间', 'datetime', '0', '0', '2', '', '1', '1', '创建时间', '1', '9', '2', 'desc', '2');
+INSERT INTO `genecode_detail` VALUES ('631', '20', 'appoint_time', '预约时间', 'datetime', '0', '0', '2', '', '1', '1', '预约时间', '1', '9', '1', 'desc', '1');
+INSERT INTO `genecode_detail` VALUES ('632', '20', 'call_time1', '拨打时间1', 'datetime', '0', '0', '2', '', '1', '1', '拨打时间1', '1', '7', '1', 'desc', '1');
+INSERT INTO `genecode_detail` VALUES ('633', '20', 'call_time2', '拨打时间2', 'datetime', '0', '0', '2', '', '1', '1', '拨打时间2', '1', '7', '1', 'desc', '1');
+INSERT INTO `genecode_detail` VALUES ('634', '20', 'finish_time', '完成时间', 'datetime', '0', '0', '2', '', '1', '1', '完成时间', '1', '9', '1', 'desc', '2');
 
 -- ----------------------------
 -- Table structure for `orders`
